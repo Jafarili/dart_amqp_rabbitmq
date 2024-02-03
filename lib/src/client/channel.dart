@@ -133,4 +133,14 @@ abstract class Channel {
   /// has processed or dropped each message published to this channel. A
   /// listener for these notifications can be registered via [publishNotifier].
   Future confirmPublishedMessages();
+
+  /// Encode and transmit [message] optionally accompanied by a server frame with [payloadContent].
+  ///
+  /// A [StateError] will be thrown when trying to write a message to a closed channel
+  void writeMessage(Message message,
+      {MessageProperties? properties,
+        Object? payloadContent,
+        Completer? completer,
+        Object? futurePayload,
+        bool noWait = false});
 }
