@@ -126,8 +126,8 @@ class TypeEncoder {
       return;
     }
 
-    // rabbit uses 64-bit POSIX time_t format (1 sec accuracy)
-    writeUInt64(value.millisecondsSinceEpoch ~/ 1000);
+    // rabbit uses 64-bit POSIX time_t format (1 millisecond accuracy)
+    writeUInt64(value.millisecondsSinceEpoch);
   }
 
   void writeFieldTable(Map<String, Object?>? table) {

@@ -89,7 +89,7 @@ class TypeDecoder {
 
   DateTime? readTimestamp() {
     int value = readUInt64();
-    return value > 0 ? DateTime.fromMillisecondsSinceEpoch(value * 1000) : null;
+    return value > 0 ? DateTime.fromMillisecondsSinceEpoch(value) : null;
   }
 
   Iterable readArray(String fieldName) {
