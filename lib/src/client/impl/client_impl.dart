@@ -228,7 +228,7 @@ class _ClientImpl implements Client {
       return;
     }
 
-    if (_error.hasListener && !_error.isClosed) {
+    if (_error.hasListener && !_error.isClosed && ex is Exception) {
       _error.add(ex);
     }
 
