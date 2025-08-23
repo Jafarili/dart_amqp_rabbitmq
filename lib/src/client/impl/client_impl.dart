@@ -1,4 +1,4 @@
-part of dart_amqp.client;
+part of "../../client.dart";
 
 class _ClientImpl implements Client {
   // Configuration options
@@ -51,13 +51,15 @@ class _ClientImpl implements Client {
       fs = SecureSocket.connect(
         settings.host,
         settings.port,
+        timeout: settings.connectTimeout,
         context: settings.tlsContext,
         onBadCertificate: settings.onBadCertificate,
       );
     } else {
       connectionLogger.info(
           "Trying to connect to ${settings.host}:${settings.port} [attempt ${_connectionAttempt + 1}/${settings.maxConnectionAttempts}]");
-      fs = Socket.connect(settings.host, settings.port);
+      fs = Socket.connect(settings.host, settings.port,
+          timeout: settings.connectTimeout);
     }
 
     fs.then((Socket s) {

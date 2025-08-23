@@ -1,4 +1,4 @@
-part of dart_amqp.client;
+part of "../../client.dart";
 
 class _ChannelImpl implements Channel {
   // The allocated channel id
@@ -140,7 +140,7 @@ class _ChannelImpl implements Channel {
         ConnectionStartOk clientResponse = ConnectionStartOk()
           ..clientProperties = {
             "product": "Dart AMQP client",
-            "version": "0.2.5",
+            "version": "0.3.1",
             "platform": "Dart/${Platform.operatingSystem}",
             if (_client.settings.connectionName != null)
               "connection_name": _client.settings.connectionName!,
@@ -563,6 +563,7 @@ class _ChannelImpl implements Channel {
       {bool passive = false,
       bool durable = false,
       bool noWait = false,
+      bool declare = true,
       Map<String, Object>? arguments}) {
     if (name.isEmpty) {
       throw ArgumentError("The name of the exchange cannot be empty");
@@ -579,6 +580,12 @@ class _ChannelImpl implements Channel {
       ..arguments = arguments;
 
     Completer<Exchange> opCompleter = Completer<Exchange>();
+
+    if (!declare) {
+      opCompleter.complete(_ExchangeImpl(this, name, type));
+      return opCompleter.future;
+    }
+
     writeMessage(exchangeRequest,
         completer: opCompleter,
         futurePayload: _ExchangeImpl(this, name, type),
